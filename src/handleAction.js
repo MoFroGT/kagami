@@ -219,7 +219,7 @@ const checkPositional = (action, logParameter) => {
     const succeedCode1 = 'B710' // B710003 B710103
     const succeedCode2 = 'D710' // D710003 D710103
     // failedCode: 710003 710003
-    return logParameter[6].includes(succeedCode1) + logParameter[6].includes(succeedCode2)
+    return logParameter[6].includes(succeedCode1) || logParameter[6].includes(succeedCode2)
   }
 
   return true
