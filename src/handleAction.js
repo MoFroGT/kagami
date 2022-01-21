@@ -197,7 +197,7 @@ const checkPositional = (action, logParameter) => {
     return logParameter.slice(8, 22).includes(succeedCode)
   }
   if (action.actionID === 2258) {
-    // だまし討ち
+    // だまし討ち / Trick Attack
     resources.positionalActionCount++
 
     const succeedCode = '1E71' // 1E710003 1E710203 1E710303
@@ -207,21 +207,19 @@ const checkPositional = (action, logParameter) => {
   if (samuraiPositionals.includes(action.actionID)) {
     // samurai rear/flank check
     resources.positionalActionCount++
-    const comboCode = '4F71' // 4F710*03
-    if (logParameter[6].includes(comboCode)) { // combo bonus.
-      // eval kenki
-      resources.samurai.action = action
-      resources.samurai.checkPositional = true
-      return true
-      // this will always return true, continue check on handleJobGauge()
-    }
-    if (reaperPositionals.includes(action.actionID)) {
-      // reaper rear/flank check
-      resources.positionalActionCount++
-  
-      return logParameter.slice(8, 22).includes('11B')
-    }
-    return false
+
+    const succeedCode = '4871' // 48710003 48710103 48710203
+    // failedCode: 44710103 44710203
+    return logParameter[6].includes(succeedCode)
+  }
+  if (reaperPositionals.includes(action.actionID)) {
+    // reaper rear/flank check
+    resources.positionalActionCount++
+
+    const succeedCode1 = 'B710' // B710003 B710103
+    const succeedCode2 = 'D710' // D710003 D710103
+    // failedCode: 710003 710003
+    return logParameter[6].includes(succeedCode1) + logParameter[6].includes(succeedCode2)
   }
 
   return true
